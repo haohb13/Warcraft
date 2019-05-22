@@ -84,7 +84,7 @@ void GameConfig::readFromStream(istream & is)
 		int value, warriorIdx = 0;
 		while(iss >> value) {
 			//cout << value << "- ";
-			initData._initLifes.insert(std::make_pair(_initOrder[warriorIdx++], value));
+			initData._initLifes.insert(std::make_pair(_initWarriorOrder[warriorIdx++], value));
 		}
 		}// 语句块
 		_groups.push_back(std::move(initData));

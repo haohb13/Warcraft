@@ -6,6 +6,8 @@
  
 #ifndef _WARCRAFT_COLOR_H_
 #define _WARCRAFT_COLOR_H_
+#include <memory>
+#include "Mylogger.h"
 
 namespace warcraft
 {
@@ -29,5 +31,16 @@ enum WeaponType {
 	ARROW_TYPE 
 };
 
+class Warrior;
+class WarriorView;
+class Weapon;
+class WeaponView;
+
+using std::shared_ptr;
+
+using WarriorPtr = shared_ptr<Warrior>;
+using WarriorViewPtr = shared_ptr<WarriorView>;
+using WeaponPtr = shared_ptr<Weapon>;
+using WeaponViewPtr = shared_ptr<WeaponView>;
 }//end of namespace warcraft
 #endif

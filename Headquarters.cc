@@ -12,46 +12,46 @@ using namespace std;
 
 namespace warcraft
 {
-WarriorView * Headquarters::getWarriorView(Warrior * warrior)
-{	return _views[warrior];		}
+WarriorViewPtr Headquarters::getWarriorView(WarriorPtr warrior)
+{	return _warriorViews[warrior];		}
 
-Warrior * RedHeadquarters::create() 
+WarriorPtr RedHeadquarters::create() 
 {
 	WARRIOR_TYPE type = _warriorProduceOrder[_nextWarriorIndex];
-	Warrior * warrior = nullptr;
-	WarriorView * view = nullptr;
+	WarriorPtr warrior;
+	WarriorViewPtr warriorView;
 	size_t id = getWarriorAmounts();
 	size_t hp = GameConfig::getInstance()->warriorInitalLife(type);
 	if(_elements > hp) {
 		_elements -= hp;
 		switch(type) {
 		case ICEMAN_TYPE: 
-			warrior = new Iceman(_color, ++id, hp);
-			view = new IcemanView(warrior);
+			warrior.reset(new Iceman(_color, ++id, hp));
+			warriorView.reset(new IcemanView(warrior));
 			break;
 		case LION_TYPE:
-			warrior = new Lion(_color, ++id, hp, _elements);
-			view = new LionView(warrior);
+			warrior.reset(new Lion(_color, ++id, hp, _elements));
+			warriorView.reset(new LionView(warrior));
 			break;
 		case WOLF_TYPE:
-			warrior = new Wolf(_color, ++id, hp);
-			view = new WolfView(warrior);
+			warrior.reset(new Wolf(_color, ++id, hp));
+			warriorView.reset(new WolfView(warrior));
 			break;
 		case NINJA_TYPE:
-			warrior = new Ninja(_color, ++id, hp);
-			view = new NinjaView(warrior);
+			warrior.reset(new Ninja(_color, ++id, hp));
+			warriorView.reset(new NinjaView(warrior));
 			break;
 		case DRAGON_TYPE:
 			float morale = static_cast<float>(_elements) / hp;
-			warrior = new Dragon(_color, ++id, hp, morale);
-			view = new DragonView(warrior);
+			warrior.reset(new Dragon(_color, ++id, hp, morale));
+			warriorView.reset(new DragonView(warrior));
 			break;
 		}
 	}
 
-	if(warrior) {
+	if(warrior.get()) {
 		_warriors.push_back(warrior);
-		_views.insert(make_pair(warrior, view));
+		_warriorViews.insert(make_pair(warrior, warriorView));
 		nextWarriorType();
 	}
 	return warrior;
@@ -64,9 +64,10 @@ void RedHeadquarters::nextWarriorType()
 }
 
  
-Warrior * BlueHeadquarters::create() 
+WarriorPtr BlueHeadquarters::create() 
 {
 
+	return nullptr;
 }
 
 void BlueHeadquarters::nextWarriorType()

@@ -4,6 +4,7 @@
  /// @date    2019-05-19 20:46:47
  ///
  
+#include "Mylogger.h"
 #include "GameConfig.h"
 #include "WarcraftWorld.h"
 
@@ -12,7 +13,7 @@
 using namespace std;
 using namespace warcraft;
  
-int main(int argc, char ** argv)
+int test0()
 {
 	//武士生命值设置时的顺序
 	vector<WARRIOR_TYPE> types1 = {
@@ -58,4 +59,19 @@ int main(int argc, char ** argv)
 #endif
 	
 	GameConfig::destroy();
+	wd::Mylogger::destroy();
+
+	return 0;
+}
+
+void test1()
+{
+	cout << SWORD_TYPE << endl;
+}
+
+int main(int argc, char ** argv)
+{
+	test0();
+	//test1();
+	return 0;
 }

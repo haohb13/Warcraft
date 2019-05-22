@@ -18,16 +18,16 @@ using std::endl;
 namespace wd
 {
 
-Mylogger * Mylogger::_pInstance = nullptr;
+Mylogger * Mylogger::_pInstance = getInstance();
 
 Mylogger::Mylogger() 
 : _mylogger(Category::getRoot().getInstance("mylogger"))
 {
 	PatternLayout * ptn1 = new PatternLayout();
-	ptn1->setConversionPattern("%d [%c] [%p] %m%n");
+	ptn1->setConversionPattern("%d [%p] %m%n");
 
 	PatternLayout * ptn2 = new PatternLayout();
-	ptn2->setConversionPattern("%d [%c] [%p] %m%n");
+	ptn2->setConversionPattern("%d [%p] %m%n");
 
 	OstreamAppender * ostreamAppender = new OstreamAppender("ostreamAppender", &cout);
 	ostreamAppender->setLayout(ptn1);
@@ -44,8 +44,8 @@ Mylogger::Mylogger()
 
 Mylogger::~Mylogger() 
 {
-	Category::shutdown();
 	cout << "~Mylogger()" << endl;
+	Category::shutdown();
 }
 
 void Mylogger::setPriority(PRIORITY p)

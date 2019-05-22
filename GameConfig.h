@@ -19,19 +19,18 @@ public:
 	void setWarriorOrder(Iterator beg, Iterator end)
 	{
 		while(beg != end) {
-			_initOrder.push_back(*beg);
+			_initWarriorOrder.push_back(*beg);
 			++beg;
 		}
 	}
 
-	void setWarriorOrder(const vector<WARRIOR_TYPE> & initOrder) 
-	{	_initOrder = initOrder;	}
-
 	void readFromConsole();
 	void readFromFile(const string & filename);
+
 	void increaseGroupId() {	++_currentGroupId;	}
-	size_t currentGroupId()	const {	return _currentGroupId;	}
+
 	size_t groups() const {	return _groups.size();	}
+	size_t currentGroupId()	const {	return _currentGroupId;	}
 	size_t headquartersInitialElements();
 	size_t warriorInitalLife(WARRIOR_TYPE key); 
 	void debug() const;
@@ -63,9 +62,9 @@ private:
 private:
 	static GameConfig * _pInstance;
 
-	vector<WARRIOR_TYPE> _initOrder;
 	vector<InitData> _groups;
 	size_t _currentGroupId;//当前组的测试数据的id
+	vector<WARRIOR_TYPE> _initWarriorOrder;
 };
  
 }// end of namespace warcraft

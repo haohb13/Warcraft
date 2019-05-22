@@ -10,6 +10,7 @@
 
 #include <log4cpp/Category.hh>
 
+#include <stdlib.h>
 #include <string>
 using std::string;
 
@@ -39,6 +40,7 @@ public:
 	{	
 		if(_pInstance == nullptr) {
 			_pInstance = new Mylogger();
+			//::atexit(destroy);
 		}
 		return _pInstance;
 	}

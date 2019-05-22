@@ -23,8 +23,11 @@ public:
 	WarcraftWorld(size_t groupId = 0)
 	: _redHeadquarters(nullptr)
 	, _blueHeadquarters(nullptr)
-	{
-		init();
+	{	init();	}
+
+	~WarcraftWorld() {	
+		if(_redHeadquarters) delete _redHeadquarters;
+		if(_blueHeadquarters) delete _blueHeadquarters;
 	}
 
 	void init();

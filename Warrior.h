@@ -6,6 +6,7 @@
 #ifndef __WARCRAFT_WARRIOR_H__
 #define __WARCRAFT_WARRIOR_H__
 
+#include "Mylogger.h"
 #include "Types.h"
 #include "Weapon.h"
 
@@ -24,7 +25,7 @@ public:
 	, _hp(hp)
 	{}
 	
-	virtual ~Warrior(){}
+	virtual ~Warrior(){	LogDebug("~Warrior"); }
 
 	Color getClor() const {	return _color;	}
 	string getName() {	return _name;	}
@@ -34,13 +35,13 @@ public:
 	virtual float getMorale() const {	return 0;	} 
 	virtual size_t getLoyalty() const {	return 0;	}
 
-	vector<Weapon*> getWeapons() const {	return _weapons;	}	
+	vector<WeaponPtr> getWeapons() const {	return _weapons;	}	
 protected: 
 	Color _color;
 	string _name;
 	size_t _id;
 	size_t _hp;
-	vector<Weapon*> _weapons;
+	vector<WeaponPtr> _weapons;
 };
 
 class Dragon
@@ -107,7 +108,7 @@ public:
 class WarriorView
 {
 public:
-	WarriorView(Warrior * warrior)
+	WarriorView(WarriorPtr warrior)
 	: _warrior(warrior)
 	{}
 
@@ -117,14 +118,14 @@ public:
 	virtual void show() const;
 
 protected:
-	Warrior * _warrior;
+	WarriorPtr _warrior;
 };
 
 class DragonView
 : public WarriorView
 {
 public:
-	DragonView(Warrior * warrior)
+	DragonView(WarriorPtr warrior)
 	: WarriorView(warrior)
 	{}
 
@@ -137,7 +138,7 @@ class NinjaView
 : public WarriorView
 {
 public:
-	NinjaView(Warrior * warrior)
+	NinjaView(WarriorPtr warrior)
 	: WarriorView(warrior)
 	{}
 
@@ -150,7 +151,7 @@ class IcemanView
 : public WarriorView
 {
 public:
-	IcemanView(Warrior * warrior)
+	IcemanView(WarriorPtr warrior)
 	: WarriorView(warrior)
 	{}
 
@@ -163,7 +164,7 @@ class LionView
 : public WarriorView
 {
 public:
-	LionView(Warrior *warrior)
+	LionView(WarriorPtr warrior)
 	: WarriorView(warrior)
 	{}
 
@@ -175,7 +176,7 @@ class WolfView
 : public WarriorView
 {
 public:
-	WolfView(Warrior * warrior)
+	WolfView(WarriorPtr warrior)
 	: WarriorView(warrior)
 	{}
 

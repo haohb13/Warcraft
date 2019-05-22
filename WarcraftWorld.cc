@@ -24,11 +24,11 @@ void WarcraftWorld::init()
 }
 
 void WarcraftWorld::start() 
-{
+{	//制造武士
 	for(int idx = 0; idx != 10; ++idx) {
-		Warrior * warrior = _redHeadquarters->create();
+		WarriorPtr warrior = _redHeadquarters->create();
 		if(warrior) {
-			WarriorView * view = _redHeadquarters->getWarriorView(warrior);
+			WarriorViewPtr view = _redHeadquarters->getWarriorView(warrior);
 			view->show();
 		}
 	}

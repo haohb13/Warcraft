@@ -5,6 +5,8 @@
  ///
  
 #include "Warrior.h"
+
+#include "Mylogger.h"
 #include <iostream>
 using namespace std;
  
@@ -23,7 +25,7 @@ void WarriorView::show() const
 	cout <<	color(_warrior->getClor()) << " "
 		 << _warrior->getName() << " "
 		 << _warrior->getId() << " born with strength "
-		 << _warrior->getHp() << endl;
+		 << _warrior->getHp() << "," << endl;
 }
 
 
