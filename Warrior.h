@@ -18,11 +18,12 @@ namespace warcraft
 
 class Warrior {
 public: 
-	Warrior(Color color, const string & name, size_t id, size_t hp)
+	Warrior(Color color, const string & name, size_t id, size_t hp, WARRIOR_TYPE type)
 	: _color(color)
 	, _name(name)
 	, _id(id)
 	, _hp(hp)
+	, _type(type)
 	{}
 	
 	virtual ~Warrior(){	LogDebug("~Warrior"); }
@@ -31,6 +32,7 @@ public:
 	string getName() {	return _name;	}
 	size_t getId() const	{	return _id;	}
 	size_t getHp() const {	return _hp;	}
+	WARRIOR_TYPE getType() const {	return _type;	}
 		
 	virtual float getMorale() const {	return 0;	} 
 	virtual size_t getLoyalty() const {	return 0;	}
@@ -41,6 +43,7 @@ protected:
 	string _name;
 	size_t _id;
 	size_t _hp;
+	WARRIOR_TYPE _type;
 	vector<WeaponPtr> _weapons;
 };
 
@@ -49,7 +52,7 @@ class Dragon
 {
 public:
 	Dragon(Color color, size_t id, size_t hp, float morale)
-	: Warrior(color, "dragon", id, hp)
+	: Warrior(color, "dragon", id, hp, DRAGON_TYPE)
 	{}
 
 	virtual float getMorale() const  {	return _morale;	}
@@ -63,7 +66,7 @@ class Ninja
 {
 public:
 	Ninja(Color color, size_t id, size_t hp)
-	: Warrior(color, "ninja", id, hp)
+	: Warrior(color, "ninja", id, hp, NINJA_TYPE)
 	{}
 
 };
@@ -73,7 +76,7 @@ class Iceman
 {
 public:
 	Iceman(Color color, size_t id, size_t hp)
-	: Warrior(color, "iceman", id, hp)
+	: Warrior(color, "iceman", id, hp, ICEMAN_TYPE)
 	{}
 
 };
@@ -83,7 +86,7 @@ class Lion
 {
 public:
 	Lion(Color color, size_t id, size_t hp, size_t loyalty)
-	: Warrior(color, "lion", id, hp)
+	: Warrior(color, "lion", id, hp, LION_TYPE)
 	, _loyalty(loyalty)
 	{}
 
@@ -98,7 +101,7 @@ class Wolf
 {
 public:
 	Wolf(Color color, size_t id, size_t hp)
-	: Warrior(color, "wolf", id, hp)
+	: Warrior(color, "wolf", id, hp, WOLF_TYPE)
 	{}
 
 };
@@ -113,8 +116,6 @@ public:
 	{}
 
 	virtual ~WarriorView() {}
-
-	string color(Color color) const;
 	virtual void show() const;
 
 protected:

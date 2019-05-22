@@ -26,13 +26,14 @@ public:
 	Headquarters(Color color, size_t elements)
 	: _color(color)
 	, _elements(elements)
+	, _nextWarriorIndex(0)
 	, _buildWarriorTimes(0)
 	{}
 
 	virtual ~Headquarters() {	LogDebug("~Headquarters()");	}
 
-	virtual WarriorPtr create() = 0;
-	virtual void nextWarriorType() = 0;
+	virtual WarriorPtr create();
+	void nextWarriorType();
 
 	template <typename Iterator>
 	void setWarriorProduceOrder(Iterator beg, Iterator end) 
@@ -41,15 +42,18 @@ public:
 			_warriorProduceOrder.push_back(*beg);
 		}
 	}
+	
+	Color getColor() const {	return _color;	}
 
-	void setBuildWarriorTimes(size_t times) {	_buildWarriorTimes = times;	}
+	WarriorViewPtr getWarriorView(WarriorPtr warrior) {	return _warriorViews[warrior];	}
+	size_t getWarriorAmount(WARRIOR_TYPE type) {	return _warriorTypeAmounts[type]; }
+	size_t getWarriorTotalAmount() const {	return _warriors.size();	}
 	size_t getBuildWarriorTimes() const {	return _buildWarriorTimes;	}
-	size_t getWarriorAmounts() const {	return _warriors.size();	}
-	WarriorViewPtr getWarriorView(WarriorPtr);
 
 protected:
 	Color _color;
 	size_t _elements;
+	size_t _nextWarriorIndex;
 	size_t _buildWarriorTimes;
 
 	vector<WeaponPtr> _weapons;
@@ -68,13 +72,9 @@ class RedHeadquarters
 public:
 	RedHeadquarters(size_t elements)
 	: Headquarters(RED, elements)
-	, _nextWarriorIndex(0)
 	{}
 
-	WarriorPtr create() override;
-	void nextWarriorType() override;
-private:
-	size_t _nextWarriorIndex;
+	//WarriorPtr create() override;
 };
 
 class BlueHeadquarters
@@ -83,15 +83,26 @@ class BlueHeadquarters
 public:
 	BlueHeadquarters(size_t elements)
 	: Headquarters(BLUE, elements)
-	, _nextWarriorIndex(0)
 	{}
 
-	WarriorPtr create() override;
-	void nextWarriorType() override;
+	//WarriorPtr create() override;
 
-private:
-	size_t _nextWarriorIndex;
 };
+
+class HeadquartersView
+{
+public:
+	HeadquartersView(Headquarters * headquarters)
+	: _headquarters(headquarters)
+	{}
+
+	void showStopMessage() const;
+	void showWarriorAmount(WARRIOR_TYPE) const;
+private:
+	Headquarters * _headquarters;
+};
+
+
 }//end of namespace warcraft
 
 #endif

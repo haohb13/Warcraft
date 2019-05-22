@@ -17,6 +17,7 @@ enum Color {
 	BLUE 
 };
 
+
 enum WARRIOR_TYPE { 
 	DRAGON_TYPE, 
 	NINJA_TYPE, 
@@ -30,6 +31,35 @@ enum WeaponType {
 	BOMB_TYPE, 
 	ARROW_TYPE 
 };
+
+inline string toString(Color color) 
+{
+	return (color == RED) ? string("red"): string("blue");
+}
+
+inline string toString(WARRIOR_TYPE type)
+{
+	switch(type) {
+	case DRAGON_TYPE: return "dragon";
+	case NINJA_TYPE:  return "ninja";
+	case ICEMAN_TYPE: return "iceman";
+	case LION_TYPE:   return "lion";
+	case WOLF_TYPE:   return "wolf";
+	default:
+		return string();
+	}
+}
+
+inline string toString(WeaponType type) 
+{
+	switch(type) {
+	case SWORD_TYPE: return "sword";
+	case BOMB_TYPE:  return "bomb";
+	case ARROW_TYPE: return "arrow";
+	default:
+		return string();
+	}
+}
 
 class Warrior;
 class WarriorView;

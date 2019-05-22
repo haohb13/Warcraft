@@ -15,20 +15,14 @@ namespace warcraft
 
 /**********************************/
 
-string WarriorView::color(Color color) const
-{
-	return (color == RED) ? string("red"): string("blue");
-}
 
 void WarriorView::show() const
 {
-	cout <<	color(_warrior->getClor()) << " "
+	cout <<	toString(_warrior->getClor()) << " "
 		 << _warrior->getName() << " "
 		 << _warrior->getId() << " born with strength "
-		 << _warrior->getHp() << "," << endl;
+		 << _warrior->getHp() << ",";
 }
-
-
 
 /**********************************/
  

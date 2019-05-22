@@ -6,6 +6,7 @@
  
 #include "WarcraftWorld.h"
 #include "GameConfig.h"
+#include "GameTime.h"
 #include "Warrior.h"
 
 #include <iostream>
@@ -25,12 +26,47 @@ void WarcraftWorld::init()
 
 void WarcraftWorld::start() 
 {	//制造武士
-	for(int idx = 0; idx != 10; ++idx) {
-		WarriorPtr warrior = _redHeadquarters->create();
-		if(warrior) {
-			WarriorViewPtr view = _redHeadquarters->getWarriorView(warrior);
-			view->show();
+	bool canRedCreateWarrior = true;
+	bool canBlueCreateWarrior = true;
+	while(1) {
+		if(canRedCreateWarrior) {
+			canRedCreateWarrior = createAndShowWarrior(_redHeadquarters);
+			if(!canRedCreateWarrior) {
+				//....
+				HeadquartersView headquartersView(_redHeadquarters);
+				headquartersView.showStopMessage();
+			}
 		}
+
+		if(canBlueCreateWarrior) {
+			canBlueCreateWarrior = createAndShowWarrior(_blueHeadquarters);
+			if(!canBlueCreateWarrior) {
+				//...
+				HeadquartersView headquartersView(_blueHeadquarters);
+				headquartersView.showStopMessage();
+			}
+		}
+		
+		if(!canRedCreateWarrior && !canBlueCreateWarrior)
+			break;
+		GameTime::getInstance()->updateTime();
+	}
+}
+
+bool WarcraftWorld::createAndShowWarrior(Headquarters * headquarters)
+{
+	WarriorPtr warrior = headquarters->create();
+	if(warrior) {
+		GameTime::getInstance()->showTime();
+		WarriorViewPtr view = headquarters->getWarriorView(warrior);
+		view->show();
+
+		HeadquartersView headquartersView(headquarters);
+		headquartersView.showWarriorAmount(warrior->getType());
+		return true;
+	} else {
+		GameTime::getInstance()->showTime();
+		return false;
 	}
 }
  

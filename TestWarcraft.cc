@@ -49,6 +49,7 @@ int test0()
 #if 1
 	size_t groups = GameConfig::getInstance()->groups();
 	for(size_t groupId = 0; groupId != groups; ++groupId) {
+		printf("Case:%lu\n", groups);
 		WarcraftWorld wow;
 		wow.setRedWarriorProduceOrder(types2.begin(), types2.end());
 		wow.setBlueWarriorProduceOrder(types3.begin(), types3.end());

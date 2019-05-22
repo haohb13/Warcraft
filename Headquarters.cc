@@ -12,15 +12,13 @@ using namespace std;
 
 namespace warcraft
 {
-WarriorViewPtr Headquarters::getWarriorView(WarriorPtr warrior)
-{	return _warriorViews[warrior];		}
 
-WarriorPtr RedHeadquarters::create() 
+WarriorPtr Headquarters::create() 
 {
 	WARRIOR_TYPE type = _warriorProduceOrder[_nextWarriorIndex];
 	WarriorPtr warrior;
 	WarriorViewPtr warriorView;
-	size_t id = getWarriorAmounts();
+	size_t id = getWarriorTotalAmount();
 	size_t hp = GameConfig::getInstance()->warriorInitalLife(type);
 	if(_elements > hp) {
 		_elements -= hp;
@@ -52,28 +50,30 @@ WarriorPtr RedHeadquarters::create()
 	if(warrior.get()) {
 		_warriors.push_back(warrior);
 		_warriorViews.insert(make_pair(warrior, warriorView));
+		++_warriorTypeAmounts[type];
 		nextWarriorType();
 	}
 	return warrior;
 }
 
-void RedHeadquarters::nextWarriorType()
+void Headquarters::nextWarriorType()
 {	
 	++_nextWarriorIndex;
 	_nextWarriorIndex %= _warriorProduceOrder.size();
 }
 
- 
-WarriorPtr BlueHeadquarters::create() 
+void HeadquartersView::showWarriorAmount(WARRIOR_TYPE type) const
 {
-
-	return nullptr;
+	cout << _headquarters->getWarriorAmount(type)
+		 << " " << toString(type) << " in " 
+		 << toString(_headquarters->getColor()) 
+		 << " headquarter" << endl;
 }
 
-void BlueHeadquarters::nextWarriorType()
-{	
-	++_nextWarriorIndex;
-	_nextWarriorIndex %= _warriorProduceOrder.size();
+void HeadquartersView::showStopMessage() const
+{
+	cout << toString(_headquarters->getColor())
+		 << " headquarter stops making warriors" << endl;
 }
 
 }// end of namespace warcraft

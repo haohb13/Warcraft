@@ -25,7 +25,8 @@ public:
 	, _blueHeadquarters(nullptr)
 	{	init();	}
 
-	~WarcraftWorld() {	
+	~WarcraftWorld() 
+	{	
 		if(_redHeadquarters) delete _redHeadquarters;
 		if(_blueHeadquarters) delete _blueHeadquarters;
 	}
@@ -38,6 +39,8 @@ public:
 
 	template <typename Iterator>
 	void setBlueWarriorProduceOrder(Iterator beg, Iterator end);
+private:
+	bool createAndShowWarrior(Headquarters *);
 
 
 private:
