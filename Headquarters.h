@@ -27,43 +27,47 @@ public:
 	: _color(color)
 	, _elements(elements)
 	, _nextWarriorIndex(0)
-	, _buildWarriorTimes(0)
 	{}
 
 	virtual ~Headquarters() {	LogDebug("~Headquarters()");	}
 
 	virtual WarriorPtr create();
-	void nextWarriorType();
+	WeaponPtr create(WeaponType type);
 
 	template <typename Iterator>
-	void setWarriorProduceOrder(Iterator beg, Iterator end) 
+	void setWarriorCreatingOrder(Iterator beg, Iterator end) 
 	{	
 		for(; beg != end; ++beg) {
-			_warriorProduceOrder.push_back(*beg);
+			_warriorCreatingOrder.push_back(*beg);
 		}
 	}
 	
 	Color getColor() const {	return _color;	}
 
 	WarriorViewPtr getWarriorView(WarriorPtr warrior) {	return _warriorViews[warrior];	}
-	size_t getWarriorAmount(WARRIOR_TYPE type) {	return _warriorTypeAmounts[type]; }
+	WeaponViewPtr getWeaponView(WeaponPtr weapon) {	return _weaponViews[weapon];	}
+	size_t getWarriorAmount(WarriorType type) {	return _warriorTypeAmounts[type]; }
 	size_t getWarriorTotalAmount() const {	return _warriors.size();	}
-	size_t getBuildWarriorTimes() const {	return _buildWarriorTimes;	}
 
+private:
+	void nextWarriorType();
+	WarriorType getNextWarriorType() {	return _warriorCreatingOrder[_nextWarriorIndex];	}
+	WarriorPtr createIceman(size_t id, size_t hp);
+	WarriorPtr createLion(size_t id, size_t hp);
+	WarriorPtr createWolf(size_t id, size_t hp);
+	WarriorPtr createNinja(size_t id, size_t hp);
+	WarriorPtr createDragon(size_t id, size_t hp);
 protected:
 	Color _color;
 	size_t _elements;
 	size_t _nextWarriorIndex;
-	size_t _buildWarriorTimes;
-
-	vector<WeaponPtr> _weapons;
-	unordered_map<WeaponPtr, WeaponViewPtr> _weaponViews;
+	vector<WarriorType> _warriorCreatingOrder;
 
 	vector<WarriorPtr> _warriors;
-	unordered_map<WARRIOR_TYPE, size_t> _warriorTypeAmounts;
 
-	vector<WARRIOR_TYPE> _warriorProduceOrder;
+	unordered_map<WeaponPtr, WeaponViewPtr> _weaponViews;
 	unordered_map<WarriorPtr, WarriorViewPtr>_warriorViews;
+	unordered_map<WarriorType, size_t> _warriorTypeAmounts;
 };
 
 class RedHeadquarters
@@ -89,6 +93,8 @@ public:
 
 };
 
+/***************************************************/
+
 class HeadquartersView
 {
 public:
@@ -97,7 +103,7 @@ public:
 	{}
 
 	void showStopMessage() const;
-	void showWarriorAmount(WARRIOR_TYPE) const;
+	void showWarriorAmount(WarriorType) const;
 private:
 	Headquarters * _headquarters;
 };

@@ -18,7 +18,7 @@ namespace warcraft
 
 class Warrior {
 public: 
-	Warrior(Color color, const string & name, size_t id, size_t hp, WARRIOR_TYPE type)
+	Warrior(Color color, const string & name, size_t id, size_t hp, WarriorType type)
 	: _color(color)
 	, _name(name)
 	, _id(id)
@@ -32,18 +32,20 @@ public:
 	string getName() {	return _name;	}
 	size_t getId() const	{	return _id;	}
 	size_t getHp() const {	return _hp;	}
-	WARRIOR_TYPE getType() const {	return _type;	}
+	WarriorType getType() const {	return _type;	}
 		
 	virtual float getMorale() const {	return 0;	} 
 	virtual size_t getLoyalty() const {	return 0;	}
 
-	vector<WeaponPtr> getWeapons() const {	return _weapons;	}	
+	const vector<WeaponPtr> & getWeapons() const {	return _weapons;	}	
+	void setWeapon(WeaponPtr weapon) { _weapons.push_back(weapon); }
+
 protected: 
 	Color _color;
 	string _name;
 	size_t _id;
 	size_t _hp;
-	WARRIOR_TYPE _type;
+	WarriorType _type;
 	vector<WeaponPtr> _weapons;
 };
 
@@ -53,9 +55,11 @@ class Dragon
 public:
 	Dragon(Color color, size_t id, size_t hp, float morale)
 	: Warrior(color, "dragon", id, hp, DRAGON_TYPE)
+	, _morale(morale)
 	{}
 
-	virtual float getMorale() const  {	return _morale;	}
+	virtual 
+	float getMorale() const  {	return _morale;	}
 
 private:
 	float _morale;
@@ -68,7 +72,6 @@ public:
 	Ninja(Color color, size_t id, size_t hp)
 	: Warrior(color, "ninja", id, hp, NINJA_TYPE)
 	{}
-
 };
 
 class Iceman
@@ -78,7 +81,6 @@ public:
 	Iceman(Color color, size_t id, size_t hp)
 	: Warrior(color, "iceman", id, hp, ICEMAN_TYPE)
 	{}
-
 };
 
 class Lion
@@ -90,6 +92,7 @@ public:
 	, _loyalty(loyalty)
 	{}
 
+	virtual
 	size_t getLoyalty() const override {	return _loyalty;	}	
 
 private:
@@ -103,7 +106,6 @@ public:
 	Wolf(Color color, size_t id, size_t hp)
 	: Warrior(color, "wolf", id, hp, WOLF_TYPE)
 	{}
-
 };
 
 /******************************************/
@@ -117,6 +119,7 @@ public:
 
 	virtual ~WarriorView() {}
 	virtual void show() const;
+	virtual void showWeapon() const = 0;
 
 protected:
 	WarriorPtr _warrior;
@@ -131,7 +134,7 @@ public:
 	{}
 
 	//void show() const;
-	//void showWeapon() const;
+	void showWeapon() const;
 
 };
 
@@ -144,7 +147,7 @@ public:
 	{}
 
 	//void show() const;
-	//void showWeapon() const;
+	void showWeapon() const;
 };
 
 
@@ -157,7 +160,7 @@ public:
 	{}
 
 	//void show() const;
-	//void showWeapon() const;
+	void showWeapon() const;
 
 };
 
@@ -170,7 +173,7 @@ public:
 	{}
 
 	//void show() const;
-	//void showWeapon() const;
+	void showWeapon() const;
 };
 
 class WolfView
@@ -182,9 +185,10 @@ public:
 	{}
 
 	//void show() const;
-	//void showWeapon() const;
+	void showWeapon() const;
 
 };
+
 }//end of namespace warcraft
 
 #endif //_WARRIOR_H

@@ -16,7 +16,7 @@ using namespace warcraft;
 int test0()
 {
 	//武士生命值设置时的顺序
-	vector<WARRIOR_TYPE> types1 = {
+	vector<WarriorType> types1 = {
 		DRAGON_TYPE, 
 		NINJA_TYPE, 
 		ICEMAN_TYPE, 
@@ -24,7 +24,7 @@ int test0()
 		WOLF_TYPE
 	};
 	//Red: 武士制造的顺序
-	vector<WARRIOR_TYPE> types2 = {
+	vector<WarriorType> types2 = {
 		ICEMAN_TYPE, 
 		LION_TYPE, 
 		WOLF_TYPE,
@@ -32,7 +32,7 @@ int test0()
 		DRAGON_TYPE, 
 	};
 	//Blue:武士制造的顺序
-	vector<WARRIOR_TYPE> types3 = {
+	vector<WarriorType> types3 = {
 		LION_TYPE, 
 		DRAGON_TYPE, 
 		NINJA_TYPE, 
@@ -49,13 +49,13 @@ int test0()
 #if 1
 	size_t groups = GameConfig::getInstance()->groups();
 	for(size_t groupId = 0; groupId != groups; ++groupId) {
-		printf("Case:%lu\n", groups);
+		printf("Case:%lu\n", groupId + 1);
 		WarcraftWorld wow;
-		wow.setRedWarriorProduceOrder(types2.begin(), types2.end());
-		wow.setBlueWarriorProduceOrder(types3.begin(), types3.end());
+		wow.setRedWarriorCreatingOrder(types2.begin(), types2.end());
+		wow.setBlueWarriorCreatingOrder(types3.begin(), types3.end());
 		wow.start();
 		
-		GameConfig::getInstance()->increaseGroupId();
+		GameConfig::getInstance()->nextGroupId();
 	}
 #endif
 	
@@ -65,14 +65,9 @@ int test0()
 	return 0;
 }
 
-void test1()
-{
-	cout << SWORD_TYPE << endl;
-}
 
 int main(int argc, char ** argv)
 {
 	test0();
-	//test1();
 	return 0;
 }

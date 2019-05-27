@@ -38,7 +38,7 @@ size_t GameConfig::headquartersInitialElements()
 	return _groups[_currentGroupId]._initElements;
 }
 
-size_t GameConfig::warriorInitalLife(WARRIOR_TYPE key)
+size_t GameConfig::warriorInitalLife(WarriorType key)
 {
 	return _groups[_currentGroupId]._initLifes[key];
 }

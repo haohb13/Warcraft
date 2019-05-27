@@ -14,13 +14,12 @@
 namespace warcraft
 {
 
-class Headquarters;
 
 class WarcraftWorld
 {
 public:
 	explicit
-	WarcraftWorld(size_t groupId = 0)
+	WarcraftWorld()
 	: _redHeadquarters(nullptr)
 	, _blueHeadquarters(nullptr)
 	{	init();	}
@@ -31,17 +30,17 @@ public:
 		if(_blueHeadquarters) delete _blueHeadquarters;
 	}
 
-	void init();
 	void start();
 
 	template <typename Iterator>
-	void setRedWarriorProduceOrder(Iterator beg, Iterator end);
+	void setRedWarriorCreatingOrder(Iterator beg, Iterator end);
 
 	template <typename Iterator>
-	void setBlueWarriorProduceOrder(Iterator beg, Iterator end);
+	void setBlueWarriorCreatingOrder(Iterator beg, Iterator end);
 private:
+	void init();
 	bool createAndShowWarrior(Headquarters *);
-
+	void showStopCreatingMessage(Headquarters * headquarters);
 
 private:
 	Headquarters * _redHeadquarters;
@@ -50,15 +49,15 @@ private:
 };
 
 template <typename Iterator>
-void WarcraftWorld::setRedWarriorProduceOrder(Iterator beg, Iterator end)
+void WarcraftWorld::setRedWarriorCreatingOrder(Iterator beg, Iterator end)
 {
-	_redHeadquarters->setWarriorProduceOrder(beg, end);
+	_redHeadquarters->setWarriorCreatingOrder(beg, end);
 }
 
 template <typename Iterator>
-void WarcraftWorld::setBlueWarriorProduceOrder(Iterator beg, Iterator end)
+void WarcraftWorld::setBlueWarriorCreatingOrder(Iterator beg, Iterator end)
 {
-	_blueHeadquarters->setWarriorProduceOrder(beg, end);
+	_blueHeadquarters->setWarriorCreatingOrder(beg, end);
 }
 }//end of namespace warcraft
  

@@ -32,23 +32,18 @@ void WarcraftWorld::start()
 		if(canRedCreateWarrior) {
 			canRedCreateWarrior = createAndShowWarrior(_redHeadquarters);
 			if(!canRedCreateWarrior) {
-				//....
-				HeadquartersView headquartersView(_redHeadquarters);
-				headquartersView.showStopMessage();
+				showStopCreatingMessage(_redHeadquarters);
 			}
 		}
 
 		if(canBlueCreateWarrior) {
 			canBlueCreateWarrior = createAndShowWarrior(_blueHeadquarters);
 			if(!canBlueCreateWarrior) {
-				//...
-				HeadquartersView headquartersView(_blueHeadquarters);
-				headquartersView.showStopMessage();
+				showStopCreatingMessage(_blueHeadquarters);
 			}
 		}
 		
-		if(!canRedCreateWarrior && !canBlueCreateWarrior)
-			break;
+		if(!canRedCreateWarrior && !canBlueCreateWarrior) break;
 		GameTime::getInstance()->updateTime();
 	}
 }
@@ -58,16 +53,24 @@ bool WarcraftWorld::createAndShowWarrior(Headquarters * headquarters)
 	WarriorPtr warrior = headquarters->create();
 	if(warrior) {
 		GameTime::getInstance()->showTime();
-		WarriorViewPtr view = headquarters->getWarriorView(warrior);
-		view->show();
+		WarriorViewPtr warriorView = headquarters->getWarriorView(warrior);
+		warriorView->show();
 
 		HeadquartersView headquartersView(headquarters);
 		headquartersView.showWarriorAmount(warrior->getType());
+
+		warriorView->showWeapon();
 		return true;
 	} else {
-		GameTime::getInstance()->showTime();
 		return false;
 	}
+}
+
+void WarcraftWorld::showStopCreatingMessage(Headquarters * headquarters)
+{
+	GameTime::getInstance()->showTime();
+	HeadquartersView headquartersView(headquarters);
+	headquartersView.showStopMessage();
 }
  
 }// end of namespace warcraft

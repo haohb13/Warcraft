@@ -6,6 +6,7 @@
  
 #ifndef _WARCRAFT_COLOR_H_
 #define _WARCRAFT_COLOR_H_
+#include <string>
 #include <memory>
 #include "Mylogger.h"
 
@@ -17,8 +18,7 @@ enum Color {
 	BLUE 
 };
 
-
-enum WARRIOR_TYPE { 
+enum WarriorType { 
 	DRAGON_TYPE, 
 	NINJA_TYPE, 
 	ICEMAN_TYPE, 
@@ -26,18 +26,19 @@ enum WARRIOR_TYPE {
 	WOLF_TYPE 
 };
 
-enum WeaponType { 
+enum WeaponType{ 
 	SWORD_TYPE, 
 	BOMB_TYPE, 
 	ARROW_TYPE 
 };
 
+using std::string;
 inline string toString(Color color) 
 {
 	return (color == RED) ? string("red"): string("blue");
 }
 
-inline string toString(WARRIOR_TYPE type)
+inline string toString(WarriorType type)
 {
 	switch(type) {
 	case DRAGON_TYPE: return "dragon";

@@ -27,12 +27,12 @@ public:
 	void readFromConsole();
 	void readFromFile(const string & filename);
 
-	void increaseGroupId() {	++_currentGroupId;	}
+	void nextGroupId() {	++_currentGroupId;	}
 
 	size_t groups() const {	return _groups.size();	}
 	size_t currentGroupId()	const {	return _currentGroupId;	}
 	size_t headquartersInitialElements();
-	size_t warriorInitalLife(WARRIOR_TYPE key); 
+	size_t warriorInitalLife(WarriorType key); 
 	void debug() const;
 
 	static GameConfig * getInstance()
@@ -57,14 +57,14 @@ private:
 	struct InitData
 	{
 		size_t _initElements;
-		map<WARRIOR_TYPE, size_t> _initLifes;
+		map<WarriorType, size_t> _initLifes;
 	};
 private:
 	static GameConfig * _pInstance;
 
 	vector<InitData> _groups;
 	size_t _currentGroupId;//当前组的测试数据的id
-	vector<WARRIOR_TYPE> _initWarriorOrder;
+	vector<WarriorType> _initWarriorOrder;
 };
  
 }// end of namespace warcraft
