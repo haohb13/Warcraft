@@ -6,6 +6,7 @@
  
 #include "Mylogger.h"
 #include "GameConfig.h"
+#include "GameTime.h"
 #include "WarcraftWorld.h"
 
 #include <vector>
@@ -45,6 +46,13 @@ int test0()
 	//GameConfig::getInstance()->readFromFile(argv[1]);
 	//GameConfig::getInstance()->readFromConsole();
 	GameConfig::getInstance()->debug();
+
+	for(int idx = 0; idx != 100; ++idx) 
+	{
+		GameTime::getInstance()->showTime();
+		GameTime::getInstance()->updateTime();
+	}
+
 
 #if 0
 	size_t groups = GameConfig::getInstance()->groups();

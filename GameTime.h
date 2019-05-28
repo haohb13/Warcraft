@@ -27,15 +27,16 @@ public:
 	void showTime() const;
 	void updateTime();
 private:
-	GameTime(size_t hour = 0)
+	GameTime(size_t hour = 0, size_t minute = 0)
 	: _hour(hour)
+	, _minute(minute)
 	{}	
-
 
 private:
 	static GameTime * _pInstance;
 	static pthread_once_t _once;
 	size_t _hour;
+	size_t _minute;
 };
 
 }//end of namespace warcraft

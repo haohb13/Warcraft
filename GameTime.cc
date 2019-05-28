@@ -32,13 +32,17 @@ void GameTime::destroy()
 
 void GameTime::updateTime()
 {
-	++_hour;
-	_hour %= 24;
+	_minute += 10;
+	if(_minute == 60) {
+		_minute = 0;
+		++_hour;
+		_hour %= 24;
+	}
 }
 
 void GameTime::showTime() const
 {
-	printf("%03lu ", _hour);
+	printf("%03lu:%02lu ", _hour, _minute);
 }
 
 }//end of namespace warcraft
