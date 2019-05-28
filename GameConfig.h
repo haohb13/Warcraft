@@ -57,7 +57,10 @@ private:
 	struct InitData
 	{
 		size_t _initElements;
+		size_t _cityCount;
+		size_t _minutes;
 		map<WarriorType, size_t> _initLifes;
+		map<WarriorType, size_t> _initAttacks;
 	};
 private:
 	static GameConfig * _pInstance;

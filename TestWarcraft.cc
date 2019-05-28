@@ -46,7 +46,7 @@ int test0()
 	//GameConfig::getInstance()->readFromConsole();
 	GameConfig::getInstance()->debug();
 
-#if 1
+#if 0
 	size_t groups = GameConfig::getInstance()->groups();
 	for(size_t groupId = 0; groupId != groups; ++groupId) {
 		printf("Case:%lu\n", groupId + 1);

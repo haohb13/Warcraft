@@ -47,8 +47,14 @@ void GameConfig::debug() const
 {
 	for(auto & initdata : _groups) {
 		cout << ">> elements:" << initdata._initElements << endl;
-		cout << ">> ";
+		cout << ">> cities:" << initdata._cityCount << endl;
+		cout << ">> times:" << initdata._minutes << endl;
 		for(auto & pair : initdata._initLifes) {
+			cout << pair.second << " ";
+		}
+		cout << endl;
+
+		for(auto & pair : initdata._initAttacks) {
 			cout << pair.second << " ";
 		}
 		cout << endl << endl;
@@ -74,6 +80,8 @@ void GameConfig::readFromStream(istream & is)
 		{
 		istringstream iss(line);
 		iss >> initData._initElements;
+		iss >> initData._cityCount;
+		iss >> initData._minutes;
 		//cout << "_initElements:" << initData._initElements << endl;
 		}// 语句块
 
@@ -87,6 +95,18 @@ void GameConfig::readFromStream(istream & is)
 			initData._initLifes.insert(std::make_pair(_initWarriorOrder[warriorIdx++], value));
 		}
 		}// 语句块
+		
+		//数据第三行
+		getline(is, line);
+		{
+		istringstream iss(line);
+		int value, warriorIdx = 0;
+		while(iss >> value) {
+			//cout << value << "- ";
+			initData._initAttacks.insert(std::make_pair(_initWarriorOrder[warriorIdx++], value));
+		}
+		}//语句块
+
 		_groups.push_back(std::move(initData));
 	}
 }
