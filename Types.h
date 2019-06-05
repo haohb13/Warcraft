@@ -15,7 +15,8 @@ namespace warcraft
  
 enum Color { 
 	RED, 
-	BLUE 
+	BLUE,
+	NOTSET
 };
 
 enum WarriorType { 

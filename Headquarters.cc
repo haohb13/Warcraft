@@ -17,82 +17,76 @@ WarriorPtr Headquarters::create()
 {
 	WarriorType type = getNextWarriorType();
 	WarriorPtr warrior;
-	WarriorViewPtr warriorView;
-	WeaponPtr weapon;
+	//WarriorViewPtr warriorView;
+	//WeaponPtr weapon;
 	size_t id = getWarriorTotalAmount();
 	size_t hp = GameConfig::getInstance()->warriorInitalLife(type);
-	while(_elements > 0) {
-		if(_elements < hp) { //生命元不足以制造当前武士时，就试图制造下一个
-			nextWarriorType();
-			WarriorType nextType = getNextWarriorType();
-			hp = GameConfig::getInstance()->warriorInitalLife(nextType);
-			if(nextType != type) continue;
-			else break;
-		} else {
-			_elements -= hp;
-			switch(type) {
-			case ICEMAN_TYPE: 
-				warrior = createDragon(++id, hp);
-				warriorView.reset(new IcemanView(warrior));
-				break;
-			case LION_TYPE:
-				warrior = createLion(++id, hp);
-				warriorView.reset(new LionView(warrior));
-				break;
-			case WOLF_TYPE:
-				warrior = createWolf(++id, hp);
-				warriorView.reset(new WolfView(warrior)); 
-				break;
-			case NINJA_TYPE:
-				warrior = createNinja(++id, hp);
-				warriorView.reset(new NinjaView(warrior));
-				break;
-			case DRAGON_TYPE:
-				warrior = createDragon(++id, hp);
-				warriorView.reset(new DragonView(warrior));
-				break;
-			default:break;
-			}
+	size_t forces = GameConfig::getInstance()->warriorInitalAttack(type);
+	if(_elements >= hp) {
+		_elements -= hp;
+		switch(type) {
+		case ICEMAN_TYPE: 
+			warrior = createIceman(++id, hp, forces);
+			//warriorView.reset(new IcemanView(warrior));
 			break;
-		} 
-	}
+		case LION_TYPE:
+			warrior = createLion(++id, hp, forces);
+			//warriorView.reset(new LionView(warrior));
+			break;
+		case WOLF_TYPE:
+			warrior = createWolf(++id, hp, forces);
+			//warriorView.reset(new WolfView(warrior)); 
+			break;
+		case NINJA_TYPE:
+			warrior = createNinja(++id, hp, forces);
+			//warriorView.reset(new NinjaView(warrior));
+			break;
+		case DRAGON_TYPE:
+			warrior = createDragon(++id, hp, forces);
+			//warriorView.reset(new DragonView(warrior));
+			break;
+		default:break;
+		}
+	} 
 
 	if(warrior.get()) {
+		warrior->setCity(getId());
 		_warriors.push_back(warrior);
-		_warriorViews.insert(make_pair(warrior, warriorView));
+		//_warriorViews.insert(make_pair(warrior, warriorView));
 		++_warriorTypeAmounts[type];
 		nextWarriorType();
+
 	}
 	return warrior;
 }
 
-WarriorPtr Headquarters::createIceman(size_t id, size_t hp)
+WarriorPtr Headquarters::createIceman(size_t id, size_t hp, size_t forces)
 {	
 	//1把武器
-	WarriorPtr warrior(new Iceman(_color, id, hp));
+	WarriorPtr warrior(new Iceman(_color, id, hp, forces));
 	WeaponPtr weapon = create(static_cast<WeaponType>(id % 3));
 	warrior->setWeapon(weapon);
 	return warrior;
 }
 
-WarriorPtr Headquarters::createLion(size_t id, size_t hp)
+WarriorPtr Headquarters::createLion(size_t id, size_t hp, size_t forces)
 {
 	//无武器, 有忠诚度
-	WarriorPtr warrior(new Lion(_color, id, hp, _elements));
+	WarriorPtr warrior(new Lion(_color, id, hp, forces, _elements));
 	return warrior;
 }
 
-WarriorPtr Headquarters::createWolf(size_t id, size_t hp)
+WarriorPtr Headquarters::createWolf(size_t id, size_t hp, size_t forces)
 {	
 	//无武器 (无特点)
-	WarriorPtr warrior(new Wolf(_color, ++id, hp));
+	WarriorPtr warrior(new Wolf(_color, ++id, hp, forces));
 	return warrior;
 }
 
-WarriorPtr Headquarters::createNinja(size_t id, size_t hp)
+WarriorPtr Headquarters::createNinja(size_t id, size_t hp, size_t forces)
 {
 	//2把武器
-	WarriorPtr warrior(new Ninja(_color, id, hp));
+	WarriorPtr warrior(new Ninja(_color, id, hp, forces));
 	WeaponPtr weapon = create(static_cast<WeaponType>(id % 3));
 	warrior->setWeapon(weapon);
 
@@ -101,11 +95,11 @@ WarriorPtr Headquarters::createNinja(size_t id, size_t hp)
 	return warrior;
 }
 
-WarriorPtr Headquarters::createDragon(size_t id, size_t hp)
+WarriorPtr Headquarters::createDragon(size_t id, size_t hp, size_t forces)
 {	
 	//1把武器, 有士气
 	float morale = static_cast<float>(_elements) / hp;
-	WarriorPtr warrior(new Dragon(_color, id, hp, morale));
+	WarriorPtr warrior(new Dragon(_color, id, hp, forces, morale));
 	WeaponPtr weapon = create(static_cast<WeaponType>(id % 3));
 	warrior->setWeapon(weapon);
 	return warrior;
@@ -130,7 +124,7 @@ WeaponPtr Headquarters::create(WeaponType type)
 		break;
 	default:break;
 	}
-	_weaponViews.insert(std::make_pair(weapon, weaponView));
+	//_weaponViews.insert(std::make_pair(weapon, weaponView));
 
 	return weapon;
 }
@@ -141,20 +135,49 @@ void Headquarters::nextWarriorType()
 	_nextWarriorIndex %= _warriorCreatingOrder.size();
 }
 
-/*********************************************************************/
-
-void HeadquartersView::showWarriorAmount(WarriorType type) const
+void Headquarters::reward()
 {
-	cout << _headquarters->getWarriorAmount(type)
-		 << " " << toString(type) << " in " 
-		 << toString(_headquarters->getColor()) 
-		 << " headquarter" << endl;
+	while(!_winners.empty()) {
+		WarriorPtr warrior = _winners.top();
+		_winners.pop();
+		if(_elements > 8) {
+			warrior->beRewarded();
+		} 
+	}
+
+	_elements += _earnElements;
+	_earnElements = 0;
 }
 
-void HeadquartersView::showStopMessage() const
+/*****************************HeadquartersView************************************/
+
+void HeadquartersView::showLeftElements() const
 {
-	cout << toString(_headquarters->getColor())
-		 << " headquarter stops making warriors" << endl;
+	printf("%lu elements in %s headquarter\n",
+		_headquarters->getElements(),
+		toString(_headquarters->getColor()).c_str());
 }
+
+void HeadquartersView::showBeTaken() const
+{
+	if(_headquarters->getColor() == RED)
+		printf("red headquarter was taken\n");
+	else 
+		printf("blue headquarter was taken\n");
+}
+
+//void HeadquartersView::showWarriorAmount(WarriorType type) const
+//{
+//	cout << _headquarters->getWarriorAmount(type)
+//		 << " " << toString(type) << " in " 
+//		 << toString(_headquarters->getColor()) 
+//		 << " headquarter" << endl;
+//}
+
+//void HeadquartersView::showStopMessage() const
+//{
+//	cout << toString(_headquarters->getColor())
+//		 << " headquarter stops making warriors" << endl;
+//}
 
 }// end of namespace warcraft

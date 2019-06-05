@@ -25,7 +25,7 @@ public:
 	, _attack(attack)
 	{}
 
-	~Weapon() {	 LogDebug("~LogDebug()");	}
+	~Weapon() {	 /*LogDebug("~LogDebug()");	*/}
 
 	string getName() {	return _name;	}
 	size_t getAttackValue() {	return _attack;	}
@@ -70,7 +70,7 @@ public:
 	: _weapon(weapon)
 	{}
 	virtual void show() const = 0;
-	virtual ~WeaponView() {		LogDebug("~WeapView()");	}
+	virtual ~WeaponView() {		/*LogDebug("~WeapView()");*/	}
 protected:
 	WeaponPtr _weapon;
 };

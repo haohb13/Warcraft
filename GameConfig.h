@@ -31,8 +31,11 @@ public:
 
 	size_t groups() const {	return _groups.size();	}
 	size_t currentGroupId()	const {	return _currentGroupId;	}
+	size_t cityCount() {	return _groups[_currentGroupId]._cityCount;	}
 	size_t headquartersInitialElements();
 	size_t warriorInitalLife(WarriorType key); 
+	size_t warriorInitalAttack(WarriorType key);
+
 	void debug() const;
 
 	static GameConfig * getInstance()

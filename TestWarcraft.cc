@@ -47,16 +47,19 @@ int test0()
 	//GameConfig::getInstance()->readFromConsole();
 	GameConfig::getInstance()->debug();
 
+#if 0
 	for(int idx = 0; idx != 100; ++idx) 
 	{
 		GameTime::getInstance()->showTime();
 		GameTime::getInstance()->updateTime();
 	}
+#endif
 
 
-#if 0
+#if 1
 	size_t groups = GameConfig::getInstance()->groups();
 	for(size_t groupId = 0; groupId != groups; ++groupId) {
+	//for(size_t groupId = 0; groupId != 1; ++groupId) {
 		printf("Case:%lu\n", groupId + 1);
 		WarcraftWorld wow;
 		wow.setRedWarriorCreatingOrder(types2.begin(), types2.end());
@@ -64,6 +67,7 @@ int test0()
 		wow.start();
 		
 		GameConfig::getInstance()->nextGroupId();
+		GameTime::getInstance()->reset();
 	}
 #endif
 	

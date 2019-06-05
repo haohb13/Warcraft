@@ -43,6 +43,11 @@ size_t GameConfig::warriorInitalLife(WarriorType key)
 	return _groups[_currentGroupId]._initLifes[key];
 }
 
+size_t GameConfig::warriorInitalAttack(WarriorType key) 
+{	
+	return _groups[_currentGroupId]._initAttacks[key];
+}
+
 void GameConfig::debug() const
 {
 	for(auto & initdata : _groups) {

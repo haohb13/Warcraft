@@ -9,11 +9,13 @@
 #define __WARCRAFT_WARCRAFTWORLD_H__ 
 
 #include "Headquarters.h"
+#include "City.h"
 #include <stdio.h>
 
 namespace warcraft
 {
 
+class City;
 
 class WarcraftWorld
 {
@@ -39,13 +41,27 @@ public:
 	void setBlueWarriorCreatingOrder(Iterator beg, Iterator end);
 private:
 	void init();
-	bool createAndShowWarrior(Headquarters *);
-	void showStopCreatingMessage(Headquarters * headquarters);
+	//------------事件begin-----------
+	void createWarrior();
+	bool warriorMarch();
+	void cityProduceElements();
+	void takeCityElements();
+	void battle();
+	void headquartersReportElements();
 
+	//------------事件end ------------
+
+	bool createWarrior(Headquarters *);
+	void warriorMarch(Headquarters * headquarters);
+	bool checkRedHeadquartersBeTaken();
+	bool checkBlueHeadquartersBeTaken();
+
+	//void showStopCreatingMessage(Headquarters * headquarters);
+	
 private:
 	Headquarters * _redHeadquarters;
 	Headquarters * _blueHeadquarters;
-	//Cities;
+	vector<City> _cities;
 };
 
 template <typename Iterator>

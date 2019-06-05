@@ -26,6 +26,8 @@ public:
 	size_t getTime() const {	return _hour;	}
 	void showTime() const;
 	void updateTime();
+	void reset()
+	{	_hour = 0; _minute = 0;	}
 private:
 	GameTime(size_t hour = 0, size_t minute = 0)
 	: _hour(hour)
