@@ -23,7 +23,10 @@ struct WarriorComparator
 {
 	bool operator()(const WarriorPtr & lhs, const WarriorPtr & rhs) const
 	{
-		return lhs->getCityId() < rhs->getCityId();
+		if(lhs->getClor() == RED ) 
+			return lhs->getCityId() < rhs->getCityId();
+		else 
+			return lhs->getCityId() > rhs->getCityId();
 	}
 };
 
